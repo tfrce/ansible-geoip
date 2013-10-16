@@ -1,0 +1,32 @@
+---
+- hosts: geoip-servers
+  user: root
+  tasks:
+    - apt: pkg=python-software-properties state=latest
+
+    - command: add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
+
+    - apt: update-cache=yes
+
+    - apt: pkg=$item state=latest
+      with_items:
+        - ruby1.9.1
+        - nodejs
+        - git
+
+    - gem: name=foreman state=latest
+
+    - git: repo=https://github.com/beaugunderson/node-geoip-web
+           dest=/srv/node-geoip-web
+           version=master
+      notify:
+        - restart node-geoip-web
+
+    - npm: path=/srv/node-geoip-web
+
+    - template: src=upstart.conf dest=/etc/init/node-geoip-web.conf mode=0644
+
+    - service: name=node-geoip-web state=started
+  handlers:
+    - name: restart node-geoip-web
+      service: name=node-geoip-web state=restarted
