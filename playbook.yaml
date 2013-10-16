@@ -16,7 +16,7 @@
 
     - gem: name=foreman state=latest
 
-    - git: repo=https://github.com/beaugunderson/node-geoip-web
+    - git: repo=https://github.com/tfrce/node-geoip-web
            dest=/srv/node-geoip-web
            version=master
       notify:
