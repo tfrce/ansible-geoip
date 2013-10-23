@@ -4,7 +4,7 @@
   tasks:
     - apt: pkg=python-software-properties state=latest
 
-    - command: add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
+    - command: add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-raring.list
 
     - apt: update-cache=yes
 
@@ -14,7 +14,8 @@
         - nodejs
         - git
 
-    - gem: name=foreman state=latest
+    # XXX: This is totally broken
+    #- gem: name=foreman state=latest
 
     - git: repo=https://github.com/tfrce/node-geoip-web
            dest=/srv/node-geoip-web
